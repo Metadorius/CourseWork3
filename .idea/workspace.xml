@@ -7,8 +7,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e5311f0-b156-4bdb-a9c5-6479930010d5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/db/SystemQueries.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/AASystem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/servlets/SystemAddServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/servlets/SystemDeleteServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/systemAdd.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/systemDelete.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/systemList.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/systemUpdate.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CourseWork3.iml" beforeDir="false" afterPath="$PROJECT_DIR$/CourseWork3.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/DivisionQueries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/DivisionQueries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Division.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Division.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/servlets/DivisionAddServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlets/DivisionAddServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/servlets/DivisionListServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlets/DivisionListServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/servlets/DivisionUpdateServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlets/DivisionUpdateServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/divisionAdd.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/divisionAdd.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/divisionList.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/divisionList.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/divisionUpdate.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/divisionUpdate.jsp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,6 +39,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Jsp File" />
       </list>
     </option>
   </component>
@@ -46,7 +66,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Repos/CourseWork3" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/webapp" />
     <property name="project.structure.last.edited" value="Facets" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.5359551" />
@@ -57,6 +77,7 @@
       <recent name="C:\Users\Meta\IdeaProjects\CourseWork3\src\main\java\servlets" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="db" />
       <recent name="servlets" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -164,12 +185,51 @@
         </option>
       </method>
     </configuration>
+    <configuration name="systemList.jsp" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" temporary="true" APPLICATION_SERVER_NAME="Tomcat 9.0.24" ALTERNATIVE_JRE_ENABLED="false">
+      <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/systemList.jsp" />
+      <deployment>
+        <artifact name="CourseWork3:war">
+          <settings>
+            <option name="CONTEXT_PATH" value="/CourseWork3_war" />
+          </settings>
+        </artifact>
+      </deployment>
+      <server-settings />
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="CourseWork3:war" />
+        </option>
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.test" />
       <item itemvalue="Tomcat Server.Tomcat 9.0.24" />
+      <item itemvalue="Tomcat Server.systemList.jsp" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Tomcat Server.systemList.jsp" />
         <item itemvalue="Application.test" />
       </list>
     </recent_temporary>
@@ -189,8 +249,17 @@
       <workItem from="1573914644325" duration="6762000" />
       <workItem from="1573991594631" duration="1578000" />
       <workItem from="1573993852212" duration="6990000" />
-      <workItem from="1574192607401" duration="2033000" />
+      <workItem from="1574192607401" duration="5844000" />
+      <workItem from="1574278983012" duration="17479000" />
     </task>
+    <task id="LOCAL-00001" summary="Implement CRUD for divisions">
+      <created>1574198530327</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1574198530327</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -208,5 +277,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Implement CRUD for divisions" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implement CRUD for divisions" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
 </project>

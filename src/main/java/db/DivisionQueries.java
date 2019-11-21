@@ -1,11 +1,9 @@
 package db;
 
+import model.AASystem;
 import model.Division;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -24,12 +22,30 @@ public class DivisionQueries {
 
         EntityManager em = getEmf().createEntityManager(); // а вот менеджер сущностей лёгок в создании, потому каждый раз создаём новый
 
-        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-        CriteriaQuery<Division> criteriaQuery = criteriaBuilder.createQuery(Division.class);
-        Root<Division> root = criteriaQuery.from(Division.class);
-        criteriaQuery.select(root);
-        TypedQuery<Division> query = em.createQuery(criteriaQuery);
+//        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+//        CriteriaQuery<Division> criteriaQuery = criteriaBuilder.createQuery(Division.class);
+//        Root<Division> root = criteriaQuery.from(Division.class);
+//        criteriaQuery.select(root);
+//        TypedQuery<Division> query = em.createQuery(criteriaQuery);
+        Query query = em.
+                createQuery("SELECT d FROM Division d");
         List<Division> resultList = query.getResultList();
+
+        em.close();
+        return resultList;
+    }
+
+    public static List<Division> selectBySystem(int system_id) {
+
+        EntityManager em = getEmf().createEntityManager(); // а вот менеджер сущностей лёгок в создании, потому каждый раз создаём новый
+//        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+//        CriteriaQuery<Division> criteriaQuery = criteriaBuilder.createQuery(Division.class);
+//        Root<Division> root = criteriaQuery.from(Division.class);
+//        criteriaQuery.select(root);
+//        TypedQuery<Division> query = em.createQuery(criteriaQuery);
+        Query query = em.
+                createQuery("SELECT d FROM Division d WHERE d.AASystem.id = ?1");
+        List<Division> resultList = query.setParameter(1, system_id).getResultList();
 
         em.close();
         return resultList;

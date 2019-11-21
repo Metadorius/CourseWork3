@@ -11,24 +11,19 @@ public class Division {
     private int id;
     private String name;
     private double lat, lng;
-    private String type; // temp
+
+    @ManyToOne
+    @JoinColumn(name = "system_id")
+    private AASystem AASystem;
 
     public Division() {
     }
 
-    public Division(String name, double lat, double lng, String type) {
+    public Division(String name, double lat, double lng, AASystem AASystem) {
         this.name = name;
         this.lat = lat;
         this.lng = lng;
-        this.type = type;
-    }
-
-    public Division(int id, String name, double lat, double lng, String type) {
-        this.id = id;
-        this.name = name;
-        this.lat = lat;
-        this.lng = lng;
-        this.type = type;
+        this.AASystem = AASystem;
     }
 
     public String getName() {
@@ -55,19 +50,24 @@ public class Division {
         this.lng = lng;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public AASystem getAASystem() {
+        return AASystem;
+    }
+
+    public void setAASystem(AASystem AASystem) {
+        this.AASystem = AASystem;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

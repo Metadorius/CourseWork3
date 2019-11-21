@@ -13,6 +13,16 @@
 <body style="margin:2em auto; max-width:800px; padding:1em; text-align:justify">
 <h4>Данные</h4>
     <a class="btn btn-outline-primary" href="divisionAdd">Добавить</a>
+    <form method="GET">
+        <select class="select2-selector form-control" name="system_id">
+            <c:forEach items="${systems}" var = "x" >
+                <option value="<c:out value="${x.getId()}"/>"><c:out value="${x.getName()}"/></option>
+            </c:forEach>
+        </select>
+        <button type="submit" class="btn btn-outline-primary">Фильтровать</button>
+        <a class="btn btn-outline-primary" href="divisionList">Cбросить</a>
+    </form>
+
 <table class="table">
     <thead>
     <tr>
@@ -29,7 +39,7 @@
         <td><c:out value="${x.getName()}"/></td>
         <td><c:out value="${x.getLat()}"/></td>
         <td><c:out value="${x.getLng()}"/></td>
-        <td><c:out value="${x.getType()}"/></td>
+        <td><c:out value="${x.getAASystem()}"/></td>
         <td>
             <form method="GET">
                 <input type="hidden" name="id" value="<c:out value="${x.getId()}"/>">

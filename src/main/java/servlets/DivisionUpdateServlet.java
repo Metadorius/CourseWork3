@@ -1,6 +1,7 @@
 package servlets;
 
 import db.DivisionQueries;
+import db.SystemQueries;
 import model.Division;
 
 import javax.servlet.ServletException;
@@ -15,6 +16,7 @@ public class DivisionUpdateServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         int id = Integer.parseInt(request.getParameter("id"));
+        int system_id = Integer.parseInt(request.getParameter("system_id"));
         Division division = DivisionQueries.get(id);
         String name = request.getParameter("name");
         double lat, lng;
@@ -27,7 +29,7 @@ public class DivisionUpdateServlet extends HttpServlet {
             return;
         }
         String type = request.getParameter("type");
-        if (name.trim().isEmpty() || type.trim().isEmpty() ||
+        if (name.trim().isEmpty() ||
                 lat < -90 || lat > 90 || lng < -180 || lng > 180) {
             request.setAttribute("message", "Неверно введены данные!");
             doGet(request, response);
@@ -36,7 +38,7 @@ public class DivisionUpdateServlet extends HttpServlet {
         division.setName(name);
         division.setLat(lat);
         division.setLng(lng);
-        division.setType(type);
+        division.setAASystem(SystemQueries.get(system_id));
         DivisionQueries.update(division);
 
         response.sendRedirect("divisionList");
@@ -46,6 +48,7 @@ public class DivisionUpdateServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         int id = Integer.parseInt(request.getParameter("id"));
         request.setAttribute("division", DivisionQueries.get(id));
+        request.setAttribute("systems", SystemQueries.selectAll());
         request.getRequestDispatcher("divisionUpdate.jsp").forward(request, response);
     }
 }

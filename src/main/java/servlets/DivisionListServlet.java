@@ -1,6 +1,7 @@
 package servlets;
 
 import db.DivisionQueries;
+import db.SystemQueries;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,11 +18,18 @@ public class DivisionListServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        System.out.println(DivisionQueries.selectAll());
+//        System.out.println(DivisionQueries.selectAll());
 //        for (Division d : DivisionQueries.selectAll()) {
-//            System.out.println(d.getName());
+//            AASystem.out.println(d.getName());
 //        }
-        request.setAttribute("divisions", DivisionQueries.selectAll());
+        try {
+            int system_id = Integer.parseInt(request.getParameter("system_id"));
+            request.setAttribute("divisions", DivisionQueries.selectBySystem(system_id));
+        } catch (NumberFormatException e) {
+            request.setAttribute("divisions", DivisionQueries.selectAll());
+        }
+
+        request.setAttribute("systems", SystemQueries.selectAll());
         request.getRequestDispatcher("divisionList.jsp").forward(request, response);
     }
 }
