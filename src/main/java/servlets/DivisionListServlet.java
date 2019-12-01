@@ -23,7 +23,7 @@ public class DivisionListServlet extends HttpServlet {
 //            AASystem.out.println(d.getName());
 //        }
         try {
-            int system_id = Integer.parseInt(request.getParameter("system_id"));
+            int system_id = Integer.parseInt(request.getParameter("system_id_filter"));
             request.setAttribute("divisions", DivisionQueries.selectBySystem(system_id));
         } catch (NumberFormatException e) {
             request.setAttribute("divisions", DivisionQueries.selectAll());

@@ -1,5 +1,6 @@
 package servlets;
 
+import db.DivisionQueries;
 import db.SystemQueries;
 import model.AASystem;
 
@@ -30,7 +31,12 @@ public class SystemDeleteServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         int id = Integer.parseInt(request.getParameter("id"));
-        request.setAttribute("system", SystemQueries.get(id));
+        int cnt = DivisionQueries.selectBySystem(id).size();
+        if (cnt > 0) {
+            request.setAttribute("message", "Вы не можете удалить данную запись, т.к. на неё имеются ссылки в подчинённых таблицах!");
+        } else {
+            request.setAttribute("system", SystemQueries.get(id));
+        }
         request.getRequestDispatcher("systemDelete.jsp").forward(request, response);
     }
 }

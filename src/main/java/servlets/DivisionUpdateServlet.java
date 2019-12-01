@@ -15,12 +15,13 @@ import java.io.IOException;
 public class DivisionUpdateServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        int id = Integer.parseInt(request.getParameter("id"));
-        int system_id = Integer.parseInt(request.getParameter("system_id"));
-        Division division = DivisionQueries.get(id);
+        int id;
+        int system_id;
         String name = request.getParameter("name");
         double lat, lng;
         try {
+            id = Integer.parseInt(request.getParameter("id"));
+            system_id = Integer.parseInt(request.getParameter("system_id"));
             lat = Double.parseDouble(request.getParameter("lat"));
             lng = Double.parseDouble(request.getParameter("lng"));
         } catch (NumberFormatException e) {
@@ -28,13 +29,13 @@ public class DivisionUpdateServlet extends HttpServlet {
             doGet(request, response);
             return;
         }
-        String type = request.getParameter("type");
         if (name.trim().isEmpty() ||
-                lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+                lat < 43 || lat > 53 || lng < 21 || lng > 41) {
             request.setAttribute("message", "Неверно введены данные!");
             doGet(request, response);
             return;
         }
+        Division division = DivisionQueries.get(id);
         division.setName(name);
         division.setLat(lat);
         division.setLng(lng);

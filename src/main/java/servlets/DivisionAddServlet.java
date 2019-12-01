@@ -16,9 +16,10 @@ public class DivisionAddServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String name = request.getParameter("name");
-        int system_id = Integer.parseInt(request.getParameter("system_id"));
+        int system_id;
         double lat, lng;
         try {
+            system_id = Integer.parseInt(request.getParameter("system_id"));
             lat = Double.parseDouble(request.getParameter("lat"));
             lng = Double.parseDouble(request.getParameter("lng"));
         } catch (NumberFormatException e) {
@@ -26,9 +27,9 @@ public class DivisionAddServlet extends HttpServlet {
             doGet(request, response);
             return;
         }
-        String type = request.getParameter("type");
+        String type = request.getParameter("type=");
         if (name.trim().isEmpty() ||
-            lat < -90 || lat > 90 || lng < -180 || lng > 180) { // широта 42-57 долгота 21-45
+            lat < 43 || lat > 53 || lng < 21 || lng > 41) { // широта 42-57 долгота 21-45
             request.setAttribute("message", "Неверно введены данные!");
             doGet(request, response);
             return;

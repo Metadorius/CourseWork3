@@ -1,58 +1,132 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Meta
-  Date: 16.10.2019
-  Time: 21:30
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <style>
-        /* Set the size of the div element that contains the map */
-        #map {
-            height: 400px;  /* The height is 400 pixels */
-            width: 100%;  /* The width is the width of the web page */
-        }
-    </style>
-    <title>lab2</title>
+    <%@include file="components/head.jsp" %>
+    <script src="https://rack.pub/control.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Зоны покрытия ЗРК</title>
 </head>
-<body style="margin:2em auto; max-width:800px; padding:1em; text-align:justify">
-
-<a class="btn btn-outline-primary" href="login" role="button">Вход</a>
-<div id="map"></div>
+<body>
+<div><%@include file="components/headerUser.jsp" %></div>
+<div id="map" class="content"></div>
 <script>
+    var bounds = null;
+    var map = null;
+
+    function drawCircle(point, radius, dir) {
+        var d2r = Math.PI / 180; // degrees to radians
+        var r2d = 180 / Math.PI; // radians to degrees
+        var earthsradius = 3963; // 3963 is the radius of the earth in miles
+
+        var points = 32;
+
+        // find the raidus in lat/lon
+        var rlat = (radius / earthsradius) * r2d;
+        var rlng = rlat / Math.cos(point.lat() * d2r);
+
+
+        var extp = new Array();
+        if (dir == 1) {
+            var start = 0;
+            var end = points + 1
+        } // one extra here makes sure we connect the
+        else {
+            var start = points + 1;
+            var end = 0
+        }
+        for (var i = start;
+             (dir == 1 ? i < end : i > end); i = i + dir) {
+            var theta = Math.PI * (i / (points / 2));
+            ey = point.lng() + (rlng * Math.cos(theta)); // center a + radius x * cos(theta)
+            ex = point.lat() + (rlat * Math.sin(theta)); // center b + radius y * sin(theta)
+            extp.push(new google.maps.LatLng(ex, ey));
+            bounds.extend(extp[extp.length - 1]);
+        }
+        // alert(extp.length);
+        return extp;
+    }
+
+
     // Initialize and add the map
-    function initMap() {
-        var bounds = new google.maps.LatLngBounds();
+    function initMap(listener) {
+
+        bounds = new google.maps.LatLngBounds();
         var req = new XMLHttpRequest();
-        var map = new google.maps.Map(
+        map = new google.maps.Map(
             document.getElementById('map'));
         var infowindow = new google.maps.InfoWindow();
         var json = null;
 
-        req.open("GET", 'api' ,true);
+        req.open("GET", 'api', true);
         req.send();
-        req.onload = function() {
+        req.onload = function (listener) {
             json = JSON.parse(req.responseText);
-            Object.keys(json).forEach(function(key) {
+            Object.keys(json).forEach(function (key) {
                 var value = json[key];
+
+                // Маркер
                 var marker = new google.maps.Marker({
                     position: new google.maps.LatLng(value["lat"], value["lng"]),
                     map: map,
                     title: value["name"]
                 });
-                google.maps.event.addListener(marker, 'click', (function(e) {
-                    return function() {
+
+                // Радиусы
+                var donut1 = new google.maps.Polygon({
+                    paths: [drawCircle(new google.maps.LatLng(value["lat"], value["lng"]), value["AASystem"]["radiusOuterLow"], 1),
+                        drawCircle(new google.maps.LatLng(value["lat"], value["lng"]), value["AASystem"]["radiusInnerLow"], -1)
+                    ],
+                    strokeColor: "#00c800",
+                    strokeOpacity: 0.5,
+                    strokeWeight: 2,
+                    fillColor: "#00ff00",
+                    fillOpacity: 0.2
+                });
+                donut1.setMap(map);
+
+                var donut2 = new google.maps.Polygon({
+                    paths: [drawCircle(new google.maps.LatLng(value["lat"], value["lng"]), value["AASystem"]["radiusOuterMed"], 1),
+                        drawCircle(new google.maps.LatLng(value["lat"], value["lng"]), value["AASystem"]["radiusInnerMed"], -1)
+                    ],
+                    strokeColor: "#c8c800",
+                    strokeOpacity: 0.5,
+                    strokeWeight: 2,
+                    fillColor: "#ffff00",
+                    fillOpacity: 0.2
+                });
+                donut2.setMap(map);
+
+                var donut3 = new google.maps.Polygon({
+                    paths: [drawCircle(new google.maps.LatLng(value["lat"], value["lng"]), value["AASystem"]["radiusOuterHigh"], 1),
+                        drawCircle(new google.maps.LatLng(value["lat"], value["lng"]), value["AASystem"]["radiusInnerHigh"], -1)
+                    ],
+                    strokeColor: "#c80000",
+                    strokeOpacity: 0.5,
+                    strokeWeight: 2,
+                    fillColor: "#ff0000",
+                    fillOpacity: 0.2
+                });
+                donut3.setMap(map)
+
+                document.getElementById('checkLow').addEventListener("click", function () {
+                    donut1.setVisible(this.checked);
+                });
+
+                document.getElementById('checkMed').addEventListener("click", function () {
+                    donut2.setVisible(this.checked);
+                });
+
+                document.getElementById('checkHigh').addEventListener("click", function () {
+                    donut3.setVisible(this.checked);
+                });
+
+                google.maps.event.addListener(marker, 'click', (function (e) {
+                    return function () {
                         infowindow.setContent(
                             "<p class=\"mb-1\"><b>" + value["name"] + "</b></p>\n" +
-                            "<p class=\"mb-1\">" + value["lat"] + ", " + value["lng"]+ "</p>\n" +
-                            "<p class=\"mb-1\">" + value["type"] + "</p>\n"
+                            "<p class=\"mb-1\">" + value["lat"] + ", " + value["lng"] + "</p>\n" +
+                            "<p class=\"mb-1\">" + value["AASystem"]["name"] + "</p>\n"
                         );
                         infowindow.open(map, marker);
                     }
@@ -63,16 +137,9 @@
         map.fitBounds(bounds);
     }
 </script>
-<!--Load the API from the specified URL
-* The async attribute allows the browser to render the page while the API loads
-* The key parameter will contain your own API key (which is not needed for this tutorial)
-* The callback parameter executes the initMap() function
--->
 <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD73SZhvHYfj_BhuMgAQ9tqoV6b2BVneIY&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD73SZhvHYfj_BhuMgAQ9tqoV6b2BVneIY&callback=initMap&libraries=geometry">
 </script>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<%@include file="components/tail.jsp" %>
 </body>
 </html>
