@@ -7,51 +7,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e5311f0-b156-4bdb-a9c5-6479930010d5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlets/DivisionAddServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlets/DivisionAddServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlets/DivisionListServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlets/DivisionListServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlets/DivisionUpdateServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlets/DivisionUpdateServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlets/SystemDeleteServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlets/SystemDeleteServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/divisionAdd.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/divisionAdd.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/divisionDelete.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/divisionDelete.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/divisionList.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/divisionList.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/divisionUpdate.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/divisionUpdate.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/components/head.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/components/head.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/components/headerUser.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/components/headerUser.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/login.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/login.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/systemAdd.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/systemAdd.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/systemDelete.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/systemDelete.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/systemList.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/systemList.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/systemUpdate.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/systemUpdate.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/CourseWork3.war" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/CourseWork3/WEB-INF/classes/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/CourseWork3/WEB-INF/classes/META-INF/persistence.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/CourseWork3/WEB-INF/classes/servlets/DivisionAddServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/CourseWork3/WEB-INF/classes/servlets/DivisionAddServlet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/CourseWork3/WEB-INF/classes/servlets/DivisionListServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/CourseWork3/WEB-INF/classes/servlets/DivisionListServlet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/CourseWork3/WEB-INF/classes/servlets/DivisionUpdateServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/CourseWork3/WEB-INF/classes/servlets/DivisionUpdateServlet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/CourseWork3/WEB-INF/classes/servlets/SystemDeleteServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/CourseWork3/WEB-INF/classes/servlets/SystemDeleteServlet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/CourseWork3/WEB-INF/lib/sqlite-dialect-0.1.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/CourseWork3/WEB-INF/lib/sqlite-jdbc-3.28.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/CourseWork3/divisionAdd.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/CourseWork3/divisionAdd.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/CourseWork3/divisionDelete.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/CourseWork3/divisionDelete.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/CourseWork3/divisionList.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/CourseWork3/divisionList.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/CourseWork3/divisionUpdate.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/CourseWork3/divisionUpdate.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/CourseWork3/components/head.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/CourseWork3/components/head.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/CourseWork3/components/headerUser.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/CourseWork3/components/headerUser.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/CourseWork3/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/CourseWork3/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/CourseWork3/login.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/CourseWork3/login.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/CourseWork3/systemAdd.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/CourseWork3/systemAdd.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/CourseWork3/systemDelete.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/CourseWork3/systemDelete.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/CourseWork3/systemList.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/CourseWork3/systemList.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/CourseWork3/systemUpdate.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/CourseWork3/systemUpdate.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/persistence.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/servlets/DivisionAddServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/servlets/DivisionAddServlet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/servlets/DivisionListServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/servlets/DivisionListServlet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/servlets/DivisionUpdateServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/servlets/DivisionUpdateServlet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/servlets/SystemDeleteServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/servlets/SystemDeleteServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/CourseWork3/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/CourseWork3/style.css" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -343,6 +308,9 @@
       <workItem from="1574787675404" duration="7810000" />
       <workItem from="1574872319082" duration="29501000" />
       <workItem from="1575063116282" duration="504000" />
+      <workItem from="1575221017298" duration="14564000" />
+      <workItem from="1575274152348" duration="6048000" />
+      <workItem from="1575395663137" duration="5331000" />
     </task>
     <task id="LOCAL-00001" summary="Implement CRUD for divisions">
       <created>1574198530327</created>

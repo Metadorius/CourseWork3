@@ -1,7 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Зоны покрытия ЗРК</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse">
+<nav class="navbar navbar-expand-md navbar-light">
+    <button type="button" id="sidebarCollapse" class="btn btn-info">
+        <i class="fas fa-align-left"></i>
+        <span>Расчёт</span>
+    </button>
+    <button class="navbar-toggler px-2" type="button" data-toggle="collapse" data-target="#navbarCollapse">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -19,6 +22,10 @@
                 <label class="form-check-label" for="checkHigh">Верхняя зона</label>
             </div>
         </ul>
-        <a class="btn btn-outline-primary" href="login" role="button">Управление</a>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="btn btn-outline-primary" href="login" role="button">Управление</a>
+            </li>
+        </ul>
     </div>
 </nav>

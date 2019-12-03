@@ -5,13 +5,55 @@ body {
 
 body {
     display: flex;
+    min-height: 100vh;
     flex-direction: column;
+    margin: 0;
 }
 
-.content {
+.main-wrapper {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: stretch;
+    flex-direction: row;
     flex-grow: 1;
 }
 
-#map {
-    width: 100%;
+.main-wrapper > .content {
+    display: flex;
+    flex: 1;
 }
+
+.main-wrapper > nav {
+    order: -1;
+
+}
+
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+}
+
+#sidebar.active {
+    margin-left: -250px;
+}
+
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+}
+
+
+
+/*.content {*/
+/*    flex-grow: 1;*/
+/*}*/
+
+/*#map {*/
+/*    width: 100%;*/
+
+/*}*/
