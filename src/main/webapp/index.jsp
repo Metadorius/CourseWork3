@@ -21,11 +21,53 @@
     let bounds = null;
     let map = null;
     let targetMarker = null;
-    let markers = [];
-    let selectedMarkerIndex = null;
+    let divisionMarkers = {};
+    let selectedDivisionId = null;
+    let divisionsJson = null;
 
     document.getElementById('calculate').addEventListener("click", function () {
-        document.getElementById('horizontalDistance').value = google.maps.geometry.spherical.computeDistanceBetween(targetMarker.position, markers[selectedMarkerIndex].position) / 1000;
+        console.log(divisionMarkers);
+        console.log(selectedDivisionId);
+        let dist = +google.maps.geometry.spherical.computeDistanceBetween(targetMarker.position, divisionMarkers[selectedDivisionId].position) / 1000; // km
+        let height = +document.getElementById('height').value; // km
+        let heading = +document.getElementById('heading').value; // degrees
+        let headingParameter = +getHeadingParam(heading); // km
+        let speed = +document.getElementById('speed').value; // km/h
+        let rocketSpeed = +document.getElementById('rocketSpeed').value; // m/s
+        let rockets = +document.getElementById('rockets').value; // qty
+        let timeDelta = +document.getElementById('timeDelta').value; // s
+
+        console.log(height)
+        console.log(headingParameter)
+
+        let division;
+        Object.keys(divisionsJson).forEach(function (key) {
+            if (Number(divisionsJson[key]["id"]) == selectedDivisionId)
+                division = divisionsJson[key];
+        });
+        console.log(division)
+
+        //dummy code for test
+        let radiusMin = +division["AASystem"]["radiusInnerLow"];
+        let radiusMax = +division["AASystem"]["radiusOuterLow"];
+
+        let travelDistanceMin = Math.sqrt(height*height + headingParameter*headingParameter + radiusMin*radiusMin);
+        let travelDistanceMax = Math.sqrt(height*height + headingParameter*headingParameter + radiusMax*radiusMax);
+        console.log(travelDistanceMin);
+        console.log(travelDistanceMax);
+
+        let travelTimeMin = travelDistanceMin * 1000 / rocketSpeed; // km * 1000 = m; m/(m/s) = s
+        let travelTimeMax = travelDistanceMax * 1000 / rocketSpeed;
+        console.log(travelTimeMin);
+        console.log(travelTimeMax);
+
+        let launchDistanceMin = radiusMin + speed*(travelTimeMin + timeDelta*(rockets - 1)) / 3600; //speed: km/h / 3600 = km/s
+        let launchDistanceMax = radiusMax + speed*travelTimeMax / 3600;
+
+        document.getElementById('horizontalDistance').value = dist;
+        document.getElementById('headingParameter').value = headingParameter;
+        document.getElementById('launchDistanceMin').value = launchDistanceMin;
+        document.getElementById('launchDistanceMax').value = launchDistanceMax;
     });
 
     document.getElementById("sidebarCollapse").addEventListener("click", function () {
@@ -79,20 +121,19 @@
         return extp;
     }
 
-    function getHeadingParam() {
-        let heading = parseFloat(document.getElementById("heading").value);
+    function getHeadingParam(heading) {
+
         // if (!heading || !targetMarker || !selectedMarkerIndex || !markers || !markers[selectedMarkerIndex])
         //     return null;
-        let offset = google.maps.geometry.spherical.computeOffset(targetMarker.position, 1, heading);
-        let complex = markers[selectedMarkerIndex].position;
+        let complex = divisionMarkers[selectedDivisionId].position;
+        let target = targetMarker.position;
 
-        let t = ((complex.lat - targetMarker.lat) * (offset.lat - targetMarker.lat) + (complex.lng - targetMarker.lng) * (offset.lng - targetMarker.lng)) /
-            ((offset.lat - targetMarker.lat) * (offset.lat - targetMarker.lat) + (offset.lng - targetMarker.lng) * (offset.lng - targetMarker.lng));
-
-        var intersect = {lat: 0, lng: 0};
-        intersect.lat = targetMarker.lat + t * (offset.lat - targetMarker.lat);
-        intersect.lng = targetMarker.lng + t * (offset.lng - targetMarker.lng);
-        return google.maps.geometry.spherical.computeDistanceBetween(complex, intersect);
+        console.log(heading); console.log(google.maps.geometry.spherical.computeHeading(target, complex));
+        let degree = Math.abs(google.maps.geometry.spherical.computeHeading(target, complex) - heading);
+        console.log(degree);
+        console.log(Math.sin(degree * Math.PI / 180));
+        console.log(google.maps.geometry.spherical.computeDistanceBetween(target, complex) / 1000);
+        return google.maps.geometry.spherical.computeDistanceBetween(target, complex) * Math.sin(degree * Math.PI / 180) / 1000;
     }
 
     function initMap(listener) {
@@ -102,15 +143,14 @@
         map = new google.maps.Map(
             document.getElementById('map'));
         let infoWindow = new google.maps.InfoWindow();
-        let json = null;
 
 
         req.open("GET", 'api', true);
         req.send();
         req.onload = function (listener) {
-            json = JSON.parse(req.responseText);
-            Object.keys(json).forEach(function (key) {
-                let value = json[key];
+            divisionsJson = JSON.parse(req.responseText);
+            Object.keys(divisionsJson).forEach(function (key) {
+                let value = divisionsJson[key];
 
                 // Маркер
                 let marker = new google.maps.Marker({
@@ -119,7 +159,7 @@
                     map: map,
                     title: value["name"]
                 });
-                markers.push(marker);
+                divisionMarkers[Number(value["id"])] = marker;
 
                 // Радиусы
                 let donut1 = new google.maps.Polygon({
@@ -130,7 +170,8 @@
                     strokeOpacity: 0.5,
                     strokeWeight: 2,
                     fillColor: "#00ff00",
-                    fillOpacity: 0.2
+                    fillOpacity: 0.2,
+                    clickable: false
                 });
                 donut1.setMap(map);
 
@@ -142,7 +183,8 @@
                     strokeOpacity: 0.5,
                     strokeWeight: 2,
                     fillColor: "#ffff00",
-                    fillOpacity: 0.2
+                    fillOpacity: 0.2,
+                    clickable: false
                 });
                 donut2.setMap(map);
 
@@ -154,7 +196,8 @@
                     strokeOpacity: 0.5,
                     strokeWeight: 2,
                     fillColor: "#ff0000",
-                    fillOpacity: 0.2
+                    fillOpacity: 0.2,
+                    clickable: false
                 });
                 donut3.setMap(map);
 
@@ -182,12 +225,15 @@
                 })(marker, value));
 
                 marker.addListener('dblclick', function () {
-                    selectedMarkerIndex = markers.indexOf(marker);
-                    markers.forEach(function (m) {
-                        if (m === marker) {
-                            m.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
+                    selectedDivisionId = Object.keys(divisionMarkers).filter(function(key) {
+                        return divisionMarkers[key] === marker;
+                    })[0];
+                    console.log(selectedDivisionId);
+                    Object.keys(divisionMarkers).forEach(function (key) {
+                        if (key == selectedDivisionId) {
+                            divisionMarkers[key].setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
                         } else {
-                            m.setIcon('http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
+                            divisionMarkers[key].setIcon('http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
                         }
                     })
                 });

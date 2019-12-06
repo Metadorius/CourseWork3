@@ -26,11 +26,15 @@ body {
 
 .main-wrapper > nav {
     order: -1;
+    overflow: scroll;
 }
 
 #sidebar {
     min-width: 250px;
     max-width: 250px;
+    height: 100%;
+    position: fixed;
+    z-index: 999;
 }
 
 #sidebar.active {
