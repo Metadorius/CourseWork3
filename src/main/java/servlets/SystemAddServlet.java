@@ -17,14 +17,9 @@ public class SystemAddServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String name = request.getParameter("name");
-        double radiusInnerLow, radiusOuterLow, radiusInnerMed, radiusOuterMed, radiusInnerHigh, radiusOuterHigh;
+        double rocketSpeed;
         try {
-            radiusInnerLow = Double.parseDouble(request.getParameter("radiusInnerLow"));
-            radiusOuterLow = Double.parseDouble(request.getParameter("radiusOuterLow"));
-            radiusInnerMed = Double.parseDouble(request.getParameter("radiusInnerMed"));
-            radiusOuterMed = Double.parseDouble(request.getParameter("radiusOuterMed"));
-            radiusInnerHigh = Double.parseDouble(request.getParameter("radiusInnerHigh"));
-            radiusOuterHigh = Double.parseDouble(request.getParameter("radiusOuterHigh"));
+            rocketSpeed = Double.parseDouble(request.getParameter("rocketSpeed"));
         } catch (NumberFormatException | NullPointerException e) {
             request.setAttribute("message", "Неверно введены данные!");
             doGet(request, response);
@@ -32,15 +27,12 @@ public class SystemAddServlet extends HttpServlet {
         }
 
         if (name.trim().isEmpty() ||
-                radiusInnerLow > radiusOuterLow ||
-                radiusInnerMed > radiusOuterMed ||
-                radiusInnerHigh > radiusOuterHigh ||
-                radiusInnerLow < 0 || radiusInnerMed < 0 || radiusInnerHigh < 0) {
+                rocketSpeed <= 0) {
             request.setAttribute("message", "Неверно введены данные!");
             doGet(request, response);
             return;
         }
-        SystemQueries.add(new AASystem(name, radiusInnerLow, radiusOuterLow, radiusInnerMed, radiusOuterMed, radiusInnerHigh, radiusOuterHigh));
+        SystemQueries.add(new AASystem(name, rocketSpeed));
         response.sendRedirect("systemList");
     }
 

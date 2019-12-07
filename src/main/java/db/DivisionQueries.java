@@ -38,11 +38,6 @@ public class DivisionQueries {
     public static List<Division> selectBySystem(int system_id) {
 
         EntityManager em = getEmf().createEntityManager(); // а вот менеджер сущностей лёгок в создании, потому каждый раз создаём новый
-//        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-//        CriteriaQuery<Division> criteriaQuery = criteriaBuilder.createQuery(Division.class);
-//        Root<Division> root = criteriaQuery.from(Division.class);
-//        criteriaQuery.select(root);
-//        TypedQuery<Division> query = em.createQuery(criteriaQuery);
         Query query = em.
                 createQuery("SELECT d FROM Division d WHERE d.AASystem.id = ?1");
         List<Division> resultList = query.setParameter(1, system_id).getResultList();

@@ -7,13 +7,8 @@
     <l:put block="content" type="REPLACE">
         <form method="POST">
             <div class="form-group">
-                <input type="text" class="form-control" name="name" placeholder="Система ПВО" required>
-                <input type="number" class="form-control" name="radiusInnerLow" min="0" placeholder="Внутренний радиус (низ)" required>
-                <input type="number" class="form-control" name="radiusOuterLow" min="0" placeholder="Внешний радиус (низ)" required>
-                <input type="number" class="form-control" name="radiusInnerMed" min="0" placeholder="Внутренний радиус (сред)" required>
-                <input type="number" class="form-control" name="radiusOuterMed" min="0" placeholder="Внешний радиус (сред)" required>
-                <input type="number" class="form-control" name="radiusInnerHigh" min="0" placeholder="Внутренний радиус (выс)" required>
-                <input type="number" class="form-control" name="radiusOuterHigh" min="0" placeholder="Внешний радиус (выс)" required>
+                <input type="text" class="form-control" name="name" placeholder="ЗРК" required>
+                <input type="number" class="form-control" name="rocketSpeed" min="0" step="any" placeholder="Скорость полёта ракеты (м/с)" required>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-outline-primary">Добавить</button>

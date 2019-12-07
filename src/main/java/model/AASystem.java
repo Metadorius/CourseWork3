@@ -1,5 +1,9 @@
 package model;
+
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "aa_system")
@@ -7,22 +11,21 @@ public class AASystem {
     @Column(name = "system_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Expose
     private int id;
+    @Expose
     private String name;
-    private double radiusInnerLow, radiusOuterLow, radiusInnerMed, radiusOuterMed, radiusInnerHigh, radiusOuterHigh;
+    @Expose
+    private double rocketSpeed;
 
-    public AASystem() {
-    }
-
-    public AASystem(String name, double radiusInnerLow, double radiusOuterLow, double radiusInnerMed, double radiusOuterMed, double radiusInnerHigh, double radiusOuterHigh) {
+    public AASystem(String name, double rocketSpeed) {
         this.name = name;
-        this.radiusInnerLow = radiusInnerLow;
-        this.radiusOuterLow = radiusOuterLow;
-        this.radiusInnerMed = radiusInnerMed;
-        this.radiusOuterMed = radiusOuterMed;
-        this.radiusInnerHigh = radiusInnerHigh;
-        this.radiusOuterHigh = radiusOuterHigh;
+        this.rocketSpeed = rocketSpeed;
     }
+
+    @OneToMany(mappedBy = "AASystem", fetch = FetchType.EAGER)
+    @Expose
+    private List<AARadius> radii;
 
     public int getId() {
         return id;
@@ -40,52 +43,29 @@ public class AASystem {
         this.name = name;
     }
 
-    public double getRadiusInnerLow() {
-        return radiusInnerLow;
+    public double getRocketSpeed() {
+        return rocketSpeed;
     }
 
-    public void setRadiusInnerLow(double radiusInnerLow) {
-        this.radiusInnerLow = radiusInnerLow;
+    public void setRocketSpeed(double rocketSpeed) {
+        this.rocketSpeed = rocketSpeed;
     }
 
-    public double getRadiusOuterLow() {
-        return radiusOuterLow;
+    public List<AARadius> getRadii() {
+        return radii;
     }
 
-    public void setRadiusOuterLow(double radiusOuterLow) {
-        this.radiusOuterLow = radiusOuterLow;
+    public void setRadii(List<AARadius> radii) {
+        this.radii = radii;
     }
 
-    public double getRadiusInnerMed() {
-        return radiusInnerMed;
+    public AASystem(String name, double rocketSpeed, List<AARadius> radii) {
+        this.name = name;
+        this.rocketSpeed = rocketSpeed;
+        this.radii = radii;
     }
 
-    public void setRadiusInnerMed(double radiusInnerMed) {
-        this.radiusInnerMed = radiusInnerMed;
-    }
-
-    public double getRadiusOuterMed() {
-        return radiusOuterMed;
-    }
-
-    public void setRadiusOuterMed(double radiusOuterMed) {
-        this.radiusOuterMed = radiusOuterMed;
-    }
-
-    public double getRadiusInnerHigh() {
-        return radiusInnerHigh;
-    }
-
-    public void setRadiusInnerHigh(double radiusInnerHigh) {
-        this.radiusInnerHigh = radiusInnerHigh;
-    }
-
-    public double getRadiusOuterHigh() {
-        return radiusOuterHigh;
-    }
-
-    public void setRadiusOuterHigh(double radiusOuterHigh) {
-        this.radiusOuterHigh = radiusOuterHigh;
+    public AASystem() {
     }
 
     @Override

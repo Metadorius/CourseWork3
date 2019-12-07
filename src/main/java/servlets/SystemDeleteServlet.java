@@ -33,10 +33,10 @@ public class SystemDeleteServlet extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         int cnt = DivisionQueries.selectBySystem(id).size();
         if (cnt > 0) {
-            request.setAttribute("message", "Вы не можете удалить данную запись, т.к. на неё имеются ссылки в подчинённых таблицах!");
-        } else {
-            request.setAttribute("system", SystemQueries.get(id));
+            request.setAttribute("message", "На данную запись имеются ссылки в таблице дивизионов, удаление её приведёт к удалению ссылающихся записей!");
         }
+        request.setAttribute("system", SystemQueries.get(id));
+
         request.getRequestDispatcher("systemDelete.jsp").forward(request, response);
     }
 }

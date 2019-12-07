@@ -15,10 +15,6 @@
                 <input type="number" class="form-control" id="speed" min="1" value="1200">
             </div>
             <div class="form-group">
-                <label for="rocketSpeed">Скорость ракет (м/c)</label>
-                <input type="number" class="form-control" id="rocketSpeed" min="1" value="1200">
-            </div>
-            <div class="form-group">
                 <label for="rockets">Кол-во ракет</label>
                 <input type="number" class="form-control" id="rockets" min="1" value="1">
             </div>

@@ -1,4 +1,6 @@
 package model;
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,12 +10,18 @@ public class Division {
     @Column(name = "division_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Expose
     private int id;
+    @Expose
     private String name;
-    private double lat, lng;
+    @Expose
+    private double lat;
+    @Expose
+    private double lng;
 
     @ManyToOne
     @JoinColumn(name = "system_id")
+    @Expose
     private AASystem AASystem;
 
     public Division() {

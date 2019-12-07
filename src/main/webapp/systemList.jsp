@@ -10,12 +10,7 @@
             <thead>
             <tr>
                 <th scope="col">ЗРК</th>
-                <th scope="col">РВН1</th>
-                <th scope="col">РВШ1</th>
-                <th scope="col">РВН2</th>
-                <th scope="col">РВШ2</th>
-                <th scope="col">РВН3</th>
-                <th scope="col">РВШ3</th>
+                <th scope="col">Скорость полёта ракеты (м/с)</th>
                 <th scope="col">Действие</th>
             </tr>
             </thead>
@@ -23,12 +18,7 @@
             <c:forEach items="${systems}" var = "system" >
                 <tr>
                     <td><c:out value="${system.getName()}"/></td>
-                    <td><c:out value="${system.getRadiusInnerLow()}"/></td>
-                    <td><c:out value="${system.getRadiusOuterLow()}"/></td>
-                    <td><c:out value="${system.getRadiusInnerMed()}"/></td>
-                    <td><c:out value="${system.getRadiusOuterMed()}"/></td>
-                    <td><c:out value="${system.getRadiusInnerHigh()}"/></td>
-                    <td><c:out value="${system.getRadiusOuterHigh()}"/></td>
+                    <td><c:out value="${system.getRocketSpeed()}"/></td>
                     <td>
                         <form method="GET">
                             <input type="hidden" name="id" value="<c:out value="${system.getId()}"/>">

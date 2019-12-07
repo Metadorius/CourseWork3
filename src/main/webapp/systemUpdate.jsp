@@ -8,13 +8,8 @@
         <form method="POST">
             <div class="form-group">
                 <input type="hidden" name="id" value="<c:out value="${system.getId()}"/>">
-                <input type="text" class="form-control" name="name" placeholder="Система ПВО" value="<c:out value="${system.getName()}"/>" required>
-                <input type="number" class="form-control" name="radiusInnerLow" min="0" placeholder="Внутренний радиус (низ)" value="<c:out value="${system.getRadiusInnerLow()}"/>" required>
-                <input type="number" class="form-control" name="radiusOuterLow" min="0" placeholder="Внешний радиус (низ)" value="<c:out value="${system.getRadiusOuterLow()}"/>" required>
-                <input type="number" class="form-control" name="radiusInnerMed" min="0" placeholder="Внутренний радиус (сред)" value="<c:out value="${system.getRadiusInnerMed()}"/>" required>
-                <input type="number" class="form-control" name="radiusOuterMed" min="0" placeholder="Внешний радиус (сред)" value="<c:out value="${system.getRadiusOuterMed()}"/>" required>
-                <input type="number" class="form-control" name="radiusInnerHigh" min="0" placeholder="Внутренний радиус (выс)" value="<c:out value="${system.getRadiusInnerHigh()}"/>" required>
-                <input type="number" class="form-control" name="radiusOuterHigh" min="0" placeholder="Внешний радиус (выс)" value="<c:out value="${system.getRadiusOuterHigh()}"/>" required>
+                <input type="text" class="form-control" name="name" placeholder="ЗРК" value="<c:out value="${system.getName()}"/>" required>
+                <input type="number" class="form-control" name="rocketSpeed" min="0" step="any" placeholder="Скорость полёта ракеты (м/с)" value="<c:out value="${system.getRocketSpeed()}"/>" required>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-outline-primary">Сохранить</button>

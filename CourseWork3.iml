@@ -5,7 +5,7 @@
       <configuration>
         <setting name="validation-enabled" value="true" />
         <datasource-mapping>
-          <factory-entry name="DivisionsDB" value="0e46bd91-bb46-4ba6-bd6a-db1cb35b2724" />
+          <factory-entry name="DivisionsDB" value="ec70cfbb-c7e3-4ded-9d87-da3d23dfbe97" />
         </datasource-mapping>
         <naming-strategy-map />
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />

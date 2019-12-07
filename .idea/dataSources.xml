@@ -31,5 +31,11 @@ C:/Users/Meta/IdeaProjects/CourseWork3/src/main/resources/META-INF/persistence.x
         </library>
       </libraries>
     </data-source>
+    <data-source source="LOCAL" name="divisions@localhost" uuid="ec70cfbb-c7e3-4ded-9d87-da3d23dfbe97">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/divisions</jdbc-url>
+    </data-source>
   </component>
 </project>

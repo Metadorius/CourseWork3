@@ -12,6 +12,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="systemList">ЗРК</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="radiusList">Радиусы</a>
+            </li>
         </ul>
         <a class="btn btn-outline-primary" href="<c:url value = "/"/>" role="button">Вернуться к карте</a>
     </div>
