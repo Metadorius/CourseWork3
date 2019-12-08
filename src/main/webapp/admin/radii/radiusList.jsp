@@ -6,7 +6,7 @@
     <l:put block="pageTitle" type="REPLACE">Радиусы поражения ЗРК</l:put>
     <l:put block="content" type="REPLACE">
         <form method="GET">
-            <button type="submit" class="btn btn-outline-primary" formaction="radiusAdd">Добавить</button>
+            <button type="submit" class="btn btn-outline-primary" formaction="add">Добавить</button>
             <c:if test="${!empty param.system_id_filter}">
                 <input type="hidden" name="system_id_filter" value="<c:out value="${param.system_id_filter}"/>">
             </c:if>
@@ -19,7 +19,7 @@
                 </c:forEach>
             </select>
             <button type="submit" class="btn btn-outline-primary">Фильтровать</button>
-            <a class="btn btn-outline-primary" href="radiusList">Cбросить</a>
+            <a class="btn btn-outline-primary" href="list">Cбросить</a>
         </form>
 
         <table class="table">
@@ -42,7 +42,7 @@
                     <td>
                         <form method="GET">
                             <input type="hidden" name="id" value="<c:out value="${x.getId()}"/>">
-                            <button type="submit" class="btn btn-outline-primary" formaction="radiusUpdate">Ред.</button>
+                            <button type="submit" class="btn btn-outline-primary" formaction="update">Ред.</button>
                             <input type="submit" class="btn btn-outline-primary" formmethod="post" onclick="return confirm('Удалить данную запись?')" value="Уд.">
                         </form>
                     </td>

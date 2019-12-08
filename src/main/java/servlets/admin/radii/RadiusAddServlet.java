@@ -1,8 +1,9 @@
-package servlets;
+package servlets.admin.radii;
 
-import db.DivisionQueries;
+import db.RadiusQueries;
 import db.SystemQueries;
-import model.Division;
+import model.AARadius;
+import model.AASystem;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,45 +12,37 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/divisionUpdate")
-public class DivisionUpdateServlet extends HttpServlet {
+@WebServlet("/admin/radii/add")
+public class RadiusAddServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        int id;
         int system_id;
-        String name = request.getParameter("name");
-        double lat, lng;
+        double height, radiusInner, radiusOuter;
         try {
-            id = Integer.parseInt(request.getParameter("id"));
             system_id = Integer.parseInt(request.getParameter("system_id"));
-            lat = Double.parseDouble(request.getParameter("lat"));
-            lng = Double.parseDouble(request.getParameter("lng"));
-        } catch (NumberFormatException e) {
+            height = Double.parseDouble(request.getParameter("height"));
+            radiusInner = Double.parseDouble(request.getParameter("radiusInner"));
+            radiusOuter = Double.parseDouble(request.getParameter("radiusOuter"));
+        } catch (NumberFormatException | NullPointerException e) {
             request.setAttribute("message", "Неверно введены данные!");
             doGet(request, response);
             return;
         }
-        if (name.trim().isEmpty() ||
-                lat < 43 || lat > 53 || lng < 21 || lng > 41) {
-            request.setAttribute("message", "Неверно введены данные!");
-            doGet(request, response);
-            return;
-        }
-        Division division = DivisionQueries.get(id);
-        division.setName(name);
-        division.setLat(lat);
-        division.setLng(lng);
-        division.setAASystem(SystemQueries.get(system_id));
-        DivisionQueries.update(division);
 
-        response.sendRedirect("divisionList");
+        if (height < 0 ||
+                radiusInner >= radiusOuter ||
+                radiusInner < 0) {
+            request.setAttribute("message", "Неверно введены данные!");
+            doGet(request, response);
+            return;
+        }
+        RadiusQueries.add(new AARadius(SystemQueries.get(system_id), height, radiusInner, radiusOuter));
+        response.sendRedirect("list");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        int id = Integer.parseInt(request.getParameter("id"));
-        request.setAttribute("division", DivisionQueries.get(id));
         request.setAttribute("systems", SystemQueries.selectAll());
-        request.getRequestDispatcher("divisionUpdate.jsp").forward(request, response);
+        request.getRequestDispatcher("radiusAdd.jsp").forward(request, response);
     }
 }

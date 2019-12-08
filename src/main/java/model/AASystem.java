@@ -1,12 +1,17 @@
 package model;
 
 import com.google.gson.annotations.Expose;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "aa_system")
+@Getter @Setter @NoArgsConstructor @EqualsAndHashCode
 public class AASystem {
     @Column(name = "system_id")
     @Id
@@ -27,45 +32,10 @@ public class AASystem {
     @Expose
     private List<AARadius> radii;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getRocketSpeed() {
-        return rocketSpeed;
-    }
-
-    public void setRocketSpeed(double rocketSpeed) {
-        this.rocketSpeed = rocketSpeed;
-    }
-
-    public List<AARadius> getRadii() {
-        return radii;
-    }
-
-    public void setRadii(List<AARadius> radii) {
-        this.radii = radii;
-    }
-
     public AASystem(String name, double rocketSpeed, List<AARadius> radii) {
         this.name = name;
         this.rocketSpeed = rocketSpeed;
         this.radii = radii;
-    }
-
-    public AASystem() {
     }
 
     @Override

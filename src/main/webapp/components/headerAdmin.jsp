@@ -7,13 +7,13 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="divisionList">Дивизионы</a>
+                <a class="nav-link" href="<c:url value = "/admin/divisions/list"/>">Дивизионы</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="systemList">ЗРК</a>
+                <a class="nav-link" href="<c:url value = "/admin/systems/list"/>">ЗРК</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="radiusList">Радиусы</a>
+                <a class="nav-link" href="<c:url value = "/admin/radii/list"/>">Радиусы</a>
             </li>
         </ul>
         <a class="btn btn-outline-primary" href="<c:url value = "/"/>" role="button">Вернуться к карте</a>

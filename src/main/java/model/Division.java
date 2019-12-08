@@ -1,10 +1,15 @@
 package model;
 import com.google.gson.annotations.Expose;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "division")
+@Getter @Setter @NoArgsConstructor @EqualsAndHashCode
 public class Division {
 
     @Column(name = "division_id")
@@ -24,53 +29,10 @@ public class Division {
     @Expose
     private AASystem AASystem;
 
-    public Division() {
-    }
-
     public Division(String name, double lat, double lng, AASystem AASystem) {
         this.name = name;
         this.lat = lat;
         this.lng = lng;
-        this.AASystem = AASystem;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getLat() {
-        return lat;
-    }
-
-    public void setLat(double lat) {
-        this.lat = lat;
-    }
-
-    public double getLng() {
-        return lng;
-    }
-
-    public void setLng(double lng) {
-        this.lng = lng;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public AASystem getAASystem() {
-        return AASystem;
-    }
-
-    public void setAASystem(AASystem AASystem) {
         this.AASystem = AASystem;
     }
 

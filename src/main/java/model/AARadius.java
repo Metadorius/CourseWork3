@@ -1,6 +1,10 @@
 package model;
 
 import com.google.gson.annotations.Expose;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -9,6 +13,7 @@ import javax.persistence.*;
         uniqueConstraints =
         @UniqueConstraint(columnNames =
                 {"system_id", "height"}))
+@Getter @Setter @NoArgsConstructor @EqualsAndHashCode
 public class AARadius {
     @Column(name = "radius_id")
     @Id
@@ -33,53 +38,10 @@ public class AARadius {
         return height + ": " + radiusInner + "-" + radiusOuter;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public model.AASystem getAASystem() {
-        return AASystem;
-    }
-
-    public void setAASystem(model.AASystem AASystem) {
-        this.AASystem = AASystem;
-    }
-
-    public double getRadiusInner() {
-        return radiusInner;
-    }
-
-    public void setRadiusInner(double radiusInner) {
-        this.radiusInner = radiusInner;
-    }
-
-    public double getRadiusOuter() {
-        return radiusOuter;
-    }
-
-    public void setRadiusOuter(double radiusOuter) {
-        this.radiusOuter = radiusOuter;
-    }
-
     public AARadius(model.AASystem AASystem, double height, double radiusInner, double radiusOuter) {
         this.AASystem = AASystem;
         this.height = height;
         this.radiusInner = radiusInner;
         this.radiusOuter = radiusOuter;
-    }
-
-    public AARadius() {
-    }
-
-    public double getHeight() {
-        return height;
-    }
-
-    public void setHeight(double height) {
-        this.height = height;
     }
 }

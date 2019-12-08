@@ -5,7 +5,7 @@
     <l:put block="title" type="REPLACE">Зенитно-ракетные комплексы</l:put>
     <l:put block="pageTitle" type="REPLACE">Зенитно-ракетные комплексы</l:put>
     <l:put block="content" type="REPLACE">
-        <a class="btn btn-outline-primary" href="systemAdd">Добавить</a>
+        <a class="btn btn-outline-primary" href="add">Добавить</a>
         <table class="table">
             <thead>
             <tr>
@@ -22,8 +22,8 @@
                     <td>
                         <form method="GET">
                             <input type="hidden" name="id" value="<c:out value="${system.getId()}"/>">
-                            <button type="submit" class="btn btn-outline-primary" formaction="systemUpdate">Ред.</button>
-                            <button type="submit" class="btn btn-outline-primary" formaction="systemDelete">Уд.</button>
+                            <button type="submit" class="btn btn-outline-primary" formaction="update">Ред.</button>
+                            <button type="submit" class="btn btn-outline-primary" formaction="delete">Уд.</button>
                         </form>
                     </td>
                 </tr>

@@ -6,7 +6,7 @@
     <l:put block="pageTitle" type="REPLACE">Дивизионы</l:put>
     <l:put block="content" type="REPLACE">
         <form method="GET">
-            <button type="submit" class="btn btn-outline-primary" formaction="divisionAdd">Добавить</button>
+            <button type="submit" class="btn btn-outline-primary" formaction="add">Добавить</button>
             <c:if test="${!empty param.system_id_filter}">
                 <input type="hidden" name="system_id_filter" value="<c:out value="${param.system_id_filter}"/>">
             </c:if>
@@ -19,7 +19,7 @@
                 </c:forEach>
             </select>
             <button type="submit" class="btn btn-outline-primary">Фильтровать</button>
-            <a class="btn btn-outline-primary" href="divisionList">Cбросить</a>
+            <a class="btn btn-outline-primary" href="list">Cбросить</a>
         </form>
 
         <table class="table">
@@ -28,7 +28,7 @@
                 <th scope="col">Дивизион</th>
                 <th scope="col">Широта</th>
                 <th scope="col">Долгота</th>
-                <th scope="col">Тип</th>
+                <th scope="col">ЗРК</th>
                 <th scope="col">Действие</th>
             </tr>
             </thead>
@@ -42,8 +42,8 @@
                     <td>
                         <form method="GET">
                             <input type="hidden" name="id" value="<c:out value="${x.getId()}"/>">
-                            <button type="submit" class="btn btn-outline-primary" formaction="divisionUpdate">Ред.</button>
-                            <button type="submit" class="btn btn-outline-primary" formaction="divisionDelete">Уд.</button>
+                            <button type="submit" class="btn btn-outline-primary" formaction="update">Ред.</button>
+                            <button type="submit" class="btn btn-outline-primary" formaction="delete">Уд.</button>
                         </form>
                     </td>
                 </tr>

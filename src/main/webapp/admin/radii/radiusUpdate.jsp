@@ -13,16 +13,16 @@
                         <option <c:if test="${x.getId() == radius.getAASystem().getId()}">selected</c:if> value="<c:out value="${x.getId()}"/>"><c:out value="${x.getName()}"/></option>
                     </c:forEach>
                 </select>
-                <input type="number" class="form-control" name="height" min="0" step="any" placeholder="Высота"
+                <input type="number" class="form-control" name="height" min="0" step="any" placeholder="Высота (км)"
                        value="<c:out value="${radius.getHeight()}"/>" required>
-                <input type="number" class="form-control" name="radiusInner" min="0" step="any" placeholder="Внутренний радиус"
+                <input type="number" class="form-control" name="radiusInner" min="0" step="any" placeholder="Мин. радиус (км)"
                         value="<c:out value="${radius.getRadiusInner()}"/>" required>
-                <input type="number" class="form-control" name="radiusOuter" min="0" step="any" placeholder="Внешний радиус"
+                <input type="number" class="form-control" name="radiusOuter" min="0" step="any" placeholder="Макс. радиус (км)"
                        value="<c:out value="${radius.getRadiusOuter()}"/>" required>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-outline-primary">Сохранить</button>
-                <a href="radiusList" class="btn btn-outline-primary">Отмена</a>
+                <a href="list" class="btn btn-outline-primary">Отмена</a>
             </div>
         </form>
     </l:put>

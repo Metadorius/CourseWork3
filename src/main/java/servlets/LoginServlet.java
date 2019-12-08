@@ -14,7 +14,7 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
         String login = request.getParameter("login");
         String pw = request.getParameter("pw");
         if (login.equals("admin") && pw.equals("password")) {
-            response.sendRedirect("divisionList");
+            response.sendRedirect("admin/divisions/list");
         }
         else {
             request.setAttribute("message", "Неверно введены данные!");

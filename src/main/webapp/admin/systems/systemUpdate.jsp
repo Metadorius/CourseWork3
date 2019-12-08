@@ -13,7 +13,7 @@
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-outline-primary">Сохранить</button>
-                <a href="systemList" class="btn btn-outline-primary">Отмена</a>
+                <a href="list" class="btn btn-outline-primary">Отмена</a>
             </div>
         </form>
     </l:put>

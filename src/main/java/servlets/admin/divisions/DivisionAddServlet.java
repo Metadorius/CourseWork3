@@ -1,8 +1,8 @@
-package servlets;
+package servlets.admin.divisions;
 
-import db.RadiusQueries;
+import db.DivisionQueries;
 import db.SystemQueries;
-import model.AARadius;
+import model.Division;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,42 +11,36 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/radiusUpdate")
-public class RadiusUpdateServlet extends HttpServlet {
+@WebServlet("/admin/divisions/add")
+public class DivisionAddServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        int id = Integer.parseInt(request.getParameter("id"));
-        AARadius radius = RadiusQueries.get(id);
+        String name = request.getParameter("name");
         int system_id;
-        double height, radiusInner, radiusOuter;
+        double lat, lng;
         try {
             system_id = Integer.parseInt(request.getParameter("system_id"));
-            height = Double.parseDouble(request.getParameter("height"));
-            radiusInner = Double.parseDouble(request.getParameter("radiusInner"));
-            radiusOuter = Double.parseDouble(request.getParameter("radiusOuter"));
-        } catch (NumberFormatException | NullPointerException e) {
+            lat = Double.parseDouble(request.getParameter("lat"));
+            lng = Double.parseDouble(request.getParameter("lng"));
+        } catch (NumberFormatException e) {
             request.setAttribute("message", "Неверно введены данные!");
             doGet(request, response);
             return;
         }
-
-        if (height < 0 ||
-                radiusInner >= radiusOuter ||
-                radiusInner < 0) {
+        String type = request.getParameter("type=");
+        if (name.trim().isEmpty() ||
+            lat < 43 || lat > 53 || lng < 21 || lng > 41) { // широта 42-57 долгота 21-45
             request.setAttribute("message", "Неверно введены данные!");
             doGet(request, response);
             return;
         }
-        radius.setAASystem(SystemQueries.get(system_id));
-        radius.setHeight(height);
-        radius.setRadiusInner(radiusInner);
-        radius.setRadiusOuter(radiusOuter);
-        response.sendRedirect("radiusList");
+        DivisionQueries.add(new Division(name, lat, lng, SystemQueries.get(system_id)));
+        response.sendRedirect("list");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         request.setAttribute("systems", SystemQueries.selectAll());
-        request.getRequestDispatcher("radiusUpdate.jsp").forward(request, response);
+        request.getRequestDispatcher("divisionAdd.jsp").forward(request, response);
     }
 }
