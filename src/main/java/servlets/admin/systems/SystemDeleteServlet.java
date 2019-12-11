@@ -29,14 +29,19 @@ public class SystemDeleteServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        int id = Integer.parseInt(request.getParameter("id"));
-        int cnt = DivisionQueries.selectBySystem(id).size();
-        if (cnt > 0) {
-            request.setAttribute("message", "На данную запись имеются ссылки в таблице дивизионов, удаление её приведёт к удалению ссылающихся записей!");
-        }
-        request.setAttribute("system", SystemQueries.get(id));
+        try {
+            request.setCharacterEncoding("UTF-8");
+            int id = Integer.parseInt(request.getParameter("id"));
+            int cnt = DivisionQueries.selectBySystem(id).size();
+            if (cnt > 0) {
+                request.setAttribute("message", "На данную запись имеются ссылки в таблице дивизионов, удаление её приведёт к удалению ссылающихся записей!");
+            }
+            request.setAttribute("system", SystemQueries.get(id));
 
-        request.getRequestDispatcher("systemDelete.jsp").forward(request, response);
+            request.getRequestDispatcher("systemDelete.jsp").forward(request, response);
+        } catch (NumberFormatException ex) {
+            response.sendRedirect("list");
+        }
+
     }
 }

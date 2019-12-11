@@ -16,7 +16,7 @@ public class RadiusListServlet extends HttpServlet {
         try {
             int delete_id = Integer.parseInt(request.getParameter("id"));
             RadiusQueries.delete(delete_id);
-            response.sendRedirect("radiusList");
+            response.sendRedirect("list");
         } catch (NumberFormatException ex) {
             doGet(request, response);
         }

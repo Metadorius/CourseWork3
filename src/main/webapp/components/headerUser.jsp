@@ -8,7 +8,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav mr-auto p-2">
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="checkbox" id="checkRadii" checked="checked">
                 <label class="form-check-label" for="checkRadii">Радиусы поражения</label>
@@ -16,7 +16,7 @@
         </ul>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="btn btn-outline-primary" href="login" role="button">Управление</a>
+                <a class="btn btn-outline-primary" href="admin/divisions/list" role="button">Управление</a>
             </li>
         </ul>
     </div>

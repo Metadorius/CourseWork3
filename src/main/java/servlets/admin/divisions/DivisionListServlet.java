@@ -2,6 +2,8 @@ package servlets.admin.divisions;
 
 import db.DivisionQueries;
 import db.SystemQueries;
+import misc.SMTPMailSender;
+import model.Division;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +14,7 @@ import java.io.IOException;
 
 @WebServlet("/admin/divisions/list")
 public class DivisionListServlet extends HttpServlet {
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
     }

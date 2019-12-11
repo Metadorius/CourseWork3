@@ -28,9 +28,13 @@ public class DivisionDeleteServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        int id = Integer.parseInt(request.getParameter("id"));
-        request.setAttribute("division", DivisionQueries.get(id));
-        request.getRequestDispatcher("divisionDelete.jsp").forward(request, response);
+        try {
+            request.setCharacterEncoding("UTF-8");
+            int id = Integer.parseInt(request.getParameter("id"));
+            request.setAttribute("division", DivisionQueries.get(id));
+            request.getRequestDispatcher("divisionDelete.jsp").forward(request, response);
+        } catch (NumberFormatException ex) {
+            response.sendRedirect("list");
+        }
     }
 }

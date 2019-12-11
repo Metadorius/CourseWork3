@@ -4,6 +4,7 @@
 <head>
     <%@include file="components/head.jsp" %>
     <script src="https://rack.pub/control.min.js"></script>
+    <script src="swiped-events.min.js"></script>
     <link rel="stylesheet" href="style.css">
     <title>Зоны покрытия ЗРК</title>
 </head>
@@ -14,30 +15,48 @@
 </div>
 <div class="main-wrapper">
     <%@include file="components/sidebar.jsp" %>
-    <div id="map" class="content"></div>
+    <div id="map" class="content" data-swipe-ignore="true"></div>
 </div>
 
 <script>
     let bounds = null;
     let map = null;
-    let targetMarker = null;
     let targetHeadingPolyline = null;
     let divisionMarkers = {};
     let selectedDivisionId = null;
     let divisionsJson = null;
     let maxHeight = null;
+    let launchPolyline = null;
+    let launchMinMarker = null;
+    let launchMaxMarker = null;
 
-    document.getElementById('calculate').addEventListener("click", function () {
-        console.log(divisionMarkers);
-        console.log(selectedDivisionId);
+    document.getElementById("sidebarCollapse").addEventListener("click", function () {
+        document.getElementById("sidebar").classList.toggle("active");
+    });
+
+    // document.addEventListener('swiped-left', function(e) {
+    //     document.getElementById("sidebar").classList.remove("active");
+    // });
+    //
+    // document.addEventListener('swiped-right', function(e) {
+    //     document.getElementById("sidebar").classList.add("active");
+    // });
+
+    function calculateValues() {
+        // console.log(divisionMarkers);
+        // console.log(selectedDivisionId);
         let dist = google.maps.geometry.spherical.computeDistanceBetween(targetHeadingPolyline.getPath().getAt(0), divisionMarkers[selectedDivisionId].position) / 1000; // km
         let height = +document.getElementById('height').value; // km
         let heading = google.maps.geometry.spherical.computeHeading(targetHeadingPolyline.getPath().getAt(0), targetHeadingPolyline.getPath().getAt(1)); // degrees
-        console.log(heading);
         let headingParameter = +getHeadingParam(heading); // km
         let speed = +document.getElementById('speed').value; // km/h
         let rockets = +document.getElementById('rockets').value; // qty
         let timeDelta = +document.getElementById('timeDelta').value; // s
+
+
+        document.getElementById('horizontalDistance').value = dist;
+        document.getElementById('heading').value = heading;
+        document.getElementById('headingParameter').value = headingParameter;
 
         let division;
         Object.keys(divisionsJson).forEach(function (key) {
@@ -52,8 +71,11 @@
         let radiusMin = +radius["radiusInner"];
         let radiusMax = +radius["radiusOuter"];
 
-        let travelDistanceMin = Math.sqrt(height*height + headingParameter*headingParameter + radiusMin*radiusMin);
-        let travelDistanceMax = Math.sqrt(height*height + headingParameter*headingParameter + radiusMax*radiusMax);
+        if (radiusMax < headingParameter)
+            return;
+
+        let travelDistanceMin = Math.sqrt(height * height + headingParameter * headingParameter + radiusMin * radiusMin);
+        let travelDistanceMax = Math.sqrt(height * height + headingParameter * headingParameter + radiusMax * radiusMax);
         // console.log(travelDistanceMin);
         // console.log(travelDistanceMax);
 
@@ -62,18 +84,74 @@
         // console.log(travelTimeMin);
         // console.log(travelTimeMax);
 
-        let launchDistanceMin = radiusMin + speed*(travelTimeMin + timeDelta*(rockets - 1)) / 3600; //speed: km/h / 3600 = km/s
-        let launchDistanceMax = radiusMax + speed*travelTimeMax / 3600;
+        let launchDistanceMin = radiusMin + speed * (travelTimeMin + timeDelta * (rockets - 1)) / 3600; //speed: km/h / 3600 = km/s
+        let launchDistanceMax = radiusMax + speed * travelTimeMax / 3600;
 
-        document.getElementById('horizontalDistance').value = dist;
-        document.getElementById('headingParameter').value = headingParameter;
+        if (launchDistanceMin > launchDistanceMax)
+            return;
+
         document.getElementById('launchDistanceMin').value = launchDistanceMin;
         document.getElementById('launchDistanceMax').value = launchDistanceMax;
-    });
 
-    document.getElementById("sidebarCollapse").addEventListener("click", function () {
-        document.getElementById("sidebar").classList.toggle("active");
-    });
+        let headingParamOffset = getIntersectionPoint();
+        console.log(headingParamOffset);
+        let minOffset = getLaunchOffset(launchDistanceMin, headingParameter) * 1000;
+        console.log(minOffset);
+        let maxOffset = getLaunchOffset(launchDistanceMax, headingParameter) * 1000;
+        console.log(maxOffset);
+        let reverseHeading = google.maps.geometry.spherical.computeHeading(targetHeadingPolyline.getPath().getAt(1), targetHeadingPolyline.getPath().getAt(0));
+
+        let minLaunchPoint = google.maps.geometry.spherical.computeOffset(headingParamOffset, minOffset, reverseHeading);
+        let maxLaunchPoint = google.maps.geometry.spherical.computeOffset(headingParamOffset, maxOffset, reverseHeading);
+
+        let launchPolyCoord = [minLaunchPoint, maxLaunchPoint];
+
+        launchPolyline = new google.maps.Polyline({
+            path: launchPolyCoord,
+            strokeOpacity: 0.8,
+            strokeColor: "#FF00FF",
+            geodesic: true,
+            optimized: false,
+            zIndex: 100,
+            map: map
+        });
+        launchMinMarker = new google.maps.Marker({
+            position: minLaunchPoint,
+            map: map,
+            icon: {
+                url: "https://maps.gstatic.com/intl/en_us/mapfiles/markers2/measle.png",
+                size: new google.maps.Size(7, 7),
+                anchor: new google.maps.Point(3.5, 3.5)
+            }
+        });
+        launchMaxMarker = new google.maps.Marker({
+            position: maxLaunchPoint,
+            map: map,
+            icon: {
+                url: "https://maps.gstatic.com/intl/en_us/mapfiles/markers2/measle.png",
+                size: new google.maps.Size(7, 7),
+                anchor: new google.maps.Point(3.5, 3.5)
+            }
+        });
+    }
+
+    function clearUpCalculations() {
+        if (launchPolyline != null) {
+            launchPolyline.setMap(null);
+        }
+        if (launchMinMarker != null) {
+            launchMinMarker.setMap(null);
+        }
+        if (launchMaxMarker != null) {
+            launchMaxMarker.setMap(null);
+        }
+
+        document.getElementById('horizontalDistance').value = "";
+        document.getElementById('heading').value = "";
+        document.getElementById('headingParameter').value = "";
+        document.getElementById('launchDistanceMin').value = "";
+        document.getElementById('launchDistanceMax').value = "";
+    }
 
     function getInterpolatedRadius(division, height) {
         let radii = division["AASystem"]["radii"];
@@ -100,11 +178,11 @@
             let higherRadius = radii[closestHigherRadiusKey];
             return {
                 height: height,
-                radiusInner: (lowerRadius["radiusInner"]*(higherRadius["height"] - height)
-                    + higherRadius["radiusInner"]*(height - lowerRadius["height"])
+                radiusInner: (lowerRadius["radiusInner"] * (higherRadius["height"] - height)
+                    + higherRadius["radiusInner"] * (height - lowerRadius["height"])
                     / (higherRadius["height"] - lowerRadius["height"])),
-                radiusOuter: (lowerRadius["radiusOuter"]*(higherRadius["height"] - height)
-                    + higherRadius["radiusOuter"]*(height - lowerRadius["height"])
+                radiusOuter: (lowerRadius["radiusOuter"] * (higherRadius["height"] - height)
+                    + higherRadius["radiusOuter"] * (height - lowerRadius["height"])
                     / (higherRadius["height"] - lowerRadius["height"]))
             }
         }
@@ -124,12 +202,31 @@
     }
 
     function placeLine(location) {
+        let arrowSymbol = {
+            strokeOpacity: 1,
+            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+        };
+        var lineSymbol = {
+            path: 'M 0,-1 0,1',
+            strokeOpacity: 1,
+            scale: 4
+        };
+
         let polyCoord = [
             location,
-            google.maps.geometry.spherical.computeOffset(location, 10, 0)
+            google.maps.geometry.spherical.computeOffset(location, 50000, 45)
         ];
         targetHeadingPolyline = new google.maps.Polyline({
-            path: polyCoord
+            path: polyCoord,
+            strokeOpacity: 0,
+            icons: [{
+                icon: arrowSymbol,
+                offset: '100%'
+            }, {
+                icon: lineSymbol,
+                offset: '0',
+                repeat: '20px'
+            }]
         });
         targetHeadingPolyline.binder = new MVCArrayBinder(targetHeadingPolyline.getPath());
         var marker0 = new google.maps.Marker({
@@ -140,6 +237,8 @@
             draggable: true
         });
         marker0.bindTo('position', targetHeadingPolyline.binder, (0).toString());
+        marker0.addListener('dragstart', clearUpCalculations);
+        marker0.addListener('dragend', calculateValues);
         var marker1 = new google.maps.Marker({
             position: event.latLng,
             title: 'Курс движения цели',
@@ -148,6 +247,8 @@
             draggable: true
         });
         marker1.bindTo('position', targetHeadingPolyline.binder, (1).toString());
+        marker1.addListener('dragstart', clearUpCalculations);
+        marker1.addListener('dragend', calculateValues);
         targetHeadingPolyline.setMap(map);
     }
 
@@ -185,19 +286,34 @@
     }
 
     function getHeadingParam() {
-
-        // if (!heading || !targetMarker || !selectedMarkerIndex || !markers || !markers[selectedMarkerIndex])
-        //     return null;
         let complex = divisionMarkers[selectedDivisionId].position;
         let target0 = targetHeadingPolyline.getPath().getAt(0);
         let target1 = targetHeadingPolyline.getPath().getAt(1);
 
         // console.log(heading); console.log(google.maps.geometry.spherical.computeHeading(target, complex));
-        let degree = Math.abs(google.maps.geometry.spherical.computeHeading(target0, complex) - google.maps.geometry.spherical.computeHeading(target0, target1));
+        let degree = google.maps.geometry.spherical.computeHeading(target0, complex) - google.maps.geometry.spherical.computeHeading(target0, target1);
         // console.log(degree);
         // console.log(Math.sin(degree * Math.PI / 180));
         // console.log(google.maps.geometry.spherical.computeDistanceBetween(target, complex) / 1000);
-        return google.maps.geometry.spherical.computeDistanceBetween(target0, complex) * Math.sin(degree * Math.PI / 180) / 1000;
+        return google.maps.geometry.spherical.computeDistanceBetween(target0, complex) * Math.abs(Math.sin(degree * Math.PI / 180)) / 1000;
+    }
+
+    function getIntersectionPoint() {
+        let complex = divisionMarkers[selectedDivisionId].position;
+        let target0 = targetHeadingPolyline.getPath().getAt(0);
+        let target1 = targetHeadingPolyline.getPath().getAt(1);
+
+        let degree = Math.abs(google.maps.geometry.spherical.computeHeading(target0, complex) - google.maps.geometry.spherical.computeHeading(target0, target1));
+        return google.maps.geometry.spherical.computeOffset(target0,
+            google.maps.geometry.spherical.computeDistanceBetween(target0, complex) * Math.cos(degree * Math.PI / 180),
+            google.maps.geometry.spherical.computeHeading(target0, target1));
+    }
+
+    function getLaunchOffset(radius, offset) {
+        if (offset >= radius)
+            return 0;
+        else
+            return Math.sqrt(radius * radius - offset * offset);
     }
 
     function getColorForHeight(height) {
@@ -207,14 +323,14 @@
     function initMap(listener) {
 
         MVCArrayBinder.prototype = new google.maps.MVCObject();
-        MVCArrayBinder.prototype.get = function(key) {
+        MVCArrayBinder.prototype.get = function (key) {
             if (!isNaN(parseInt(key))) {
                 return this.array_.getAt(parseInt(key));
             } else {
                 this.array_.get(key);
             }
         }
-        MVCArrayBinder.prototype.set = function(key, val) {
+        MVCArrayBinder.prototype.set = function (key, val) {
             if (!isNaN(parseInt(key))) {
                 this.array_.setAt(parseInt(key), val);
             } else {
@@ -232,7 +348,7 @@
         hreq.open("GET", 'api/maxHeight', true);
         hreq.send();
         hreq.onload = function (listener) {
-          maxHeight = Number(hreq.responseText);
+            maxHeight = Number(hreq.responseText);
         };
 
         req.open("GET", 'api/divisions', true);
@@ -283,7 +399,7 @@
                 })(marker, value));
 
                 marker.addListener('dblclick', function () {
-                    selectedDivisionId = Object.keys(divisionMarkers).filter(function(key) {
+                    selectedDivisionId = Object.keys(divisionMarkers).filter(function (key) {
                         return divisionMarkers[key] === marker;
                     })[0];
                     // console.log(selectedDivisionId);
@@ -293,7 +409,9 @@
                         } else {
                             divisionMarkers[key].setIcon('http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
                         }
-                    })
+                    });
+                    clearUpCalculations();
+                    calculateValues();
                 });
 
                 bounds.extend(marker.position);

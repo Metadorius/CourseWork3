@@ -6,7 +6,7 @@
     <%@include file="components/head.jsp" %>
     <title>Войти</title>
 </head>
-<body style="margin:2em auto; max-width:200px; padding:1em; text-align:justify">
+<body style="margin:2em auto; max-width:240px; padding:1em; text-align:justify">
 <h4>Войти</h4>
 <%@include file="components/alert.jsp" %>
 <form action="login" method="POST">
@@ -17,7 +17,8 @@
     <input type="password" class="form-control" name="pw" placeholder="Пароль">
     </div>
     <div class="form-group">
-    <button type="submit" class="btn btn-outline-primary">Войти</button>
+        <button type="submit" class="btn btn-outline-primary">Войти</button>
+        <a class="btn btn-outline-primary" href="<c:url value = "/"/>" role="button">Отмена</a>
     </div>
 </form>
 <%@include file="components/tail.jsp" %></body>

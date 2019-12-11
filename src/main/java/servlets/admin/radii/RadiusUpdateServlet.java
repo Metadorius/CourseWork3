@@ -41,12 +41,19 @@ public class RadiusUpdateServlet extends HttpServlet {
         radius.setHeight(height);
         radius.setRadiusInner(radiusInner);
         radius.setRadiusOuter(radiusOuter);
+        RadiusQueries.update(radius);
         response.sendRedirect("list");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        request.setAttribute("systems", SystemQueries.selectAll());
-        request.getRequestDispatcher("radiusUpdate.jsp").forward(request, response);
+        try {
+            request.setCharacterEncoding("UTF-8");
+            int id = Integer.parseInt(request.getParameter("id"));
+            request.setAttribute("systems", SystemQueries.selectAll());
+            request.setAttribute("radius", RadiusQueries.get(id));
+            request.getRequestDispatcher("radiusUpdate.jsp").forward(request, response);
+        } catch (NumberFormatException ex) {
+            response.sendRedirect("list");
+        }
     }
 }

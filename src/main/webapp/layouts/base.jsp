@@ -15,7 +15,7 @@
     </l:block>
 </div>
 
-<div style="margin:2em auto; max-width:800px; padding:1em; text-align:justify">
+<div style="margin:2em auto; max-width:800px; padding:1em; text-align:justify; overflow: auto">
     <div id="pageTitle">
         <h4><l:block name="pageTitle"/></h4>
     </div>
