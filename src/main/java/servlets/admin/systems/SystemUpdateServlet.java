@@ -14,29 +14,35 @@ import java.io.IOException;
 public class SystemUpdateServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        int id = Integer.parseInt(request.getParameter("id"));
-        AASystem system = SystemQueries.get(id);
-        String name = request.getParameter("name");
-        double rocketSpeed;
         try {
-            rocketSpeed = Double.parseDouble(request.getParameter("rocketSpeed"));
-        } catch (NumberFormatException | NullPointerException e) {
-            request.setAttribute("message", "Неверно введены данные!");
-            doGet(request, response);
-            return;
-        }
+            int id = Integer.parseInt(request.getParameter("id"));
+            AASystem system = SystemQueries.get(id);
+            String name = request.getParameter("name");
+            double rocketSpeed;
+            try {
+                rocketSpeed = Double.parseDouble(request.getParameter("rocketSpeed"));
+            } catch (NumberFormatException | NullPointerException e) {
+                request.setAttribute("message", "Неверно введены данные!");
+                doGet(request, response);
+                return;
+            }
 
-        if (name.trim().isEmpty() ||
-                rocketSpeed <= 0) {
-            request.setAttribute("message", "Неверно введены данные!");
-            doGet(request, response);
-            return;
-        }
-        system.setName(name);
-        system.setRocketSpeed(rocketSpeed);
-        SystemQueries.update(system);
+            if (name.trim().isEmpty() ||
+                    rocketSpeed <= 0) {
+                request.setAttribute("message", "Неверно введены данные!");
+                doGet(request, response);
+                return;
+            }
+            system.setName(name);
+            system.setRocketSpeed(rocketSpeed);
+            SystemQueries.update(system);
 
-        response.sendRedirect("list");
+            response.sendRedirect("list");
+        } catch (Exception ex) {
+            request.setAttribute("message", "Во время обработки запроса произошла ошибка: " + ex.toString());
+            doGet(request, response);
+            throw new RuntimeException(ex);
+        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

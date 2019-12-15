@@ -16,24 +16,30 @@ import java.io.IOException;
 public class SystemAddServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        String name = request.getParameter("name");
-        double rocketSpeed;
         try {
-            rocketSpeed = Double.parseDouble(request.getParameter("rocketSpeed"));
-        } catch (NumberFormatException | NullPointerException e) {
-            request.setAttribute("message", "Неверно введены данные!");
-            doGet(request, response);
-            return;
-        }
+            String name = request.getParameter("name");
+            double rocketSpeed;
+            try {
+                rocketSpeed = Double.parseDouble(request.getParameter("rocketSpeed"));
+            } catch (NumberFormatException | NullPointerException e) {
+                request.setAttribute("message", "Неверно введены данные!");
+                doGet(request, response);
+                return;
+            }
 
-        if (name.trim().isEmpty() ||
-                rocketSpeed <= 0) {
-            request.setAttribute("message", "Неверно введены данные!");
+            if (name.trim().isEmpty() ||
+                    rocketSpeed <= 0) {
+                request.setAttribute("message", "Неверно введены данные!");
+                doGet(request, response);
+                return;
+            }
+            SystemQueries.add(new AASystem(name, rocketSpeed));
+            response.sendRedirect("list");
+        } catch (Exception ex) {
+            request.setAttribute("message", "Во время обработки запроса произошла ошибка: " + ex.toString());
             doGet(request, response);
-            return;
+            throw new RuntimeException(ex);
         }
-        SystemQueries.add(new AASystem(name, rocketSpeed));
-        response.sendRedirect("list");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

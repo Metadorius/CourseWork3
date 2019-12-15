@@ -55,8 +55,9 @@ public class DivisionSendServlet extends HttpServlet {
             sender.send("Данные таблицы \"Дивизионы\"", message, receiver);
             response.sendRedirect("list");
         } catch (Exception ex) {
-            request.setAttribute("message", ex.toString());
+            request.setAttribute("message", "Во время обработки запроса произошла ошибка: " + ex.toString());
             doGet(request, response);
+            throw new RuntimeException(ex);
         }
     }
 }

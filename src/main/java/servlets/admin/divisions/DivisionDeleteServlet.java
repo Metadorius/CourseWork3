@@ -14,16 +14,22 @@ import java.io.IOException;
 public class DivisionDeleteServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        int id = Integer.parseInt(request.getParameter("id"));
-        String name = request.getParameter("name");
+        try {
+            int id = Integer.parseInt(request.getParameter("id"));
+            String name = request.getParameter("name");
 
-        Division division = DivisionQueries.get(id);
-        if (division.getName().equals(name)) {
-            DivisionQueries.delete(division.getId());
-            response.sendRedirect("list");
-        } else {
-            request.setAttribute("message", "Неверно введено название!");
+            Division division = DivisionQueries.get(id);
+            if (division.getName().equals(name)) {
+                DivisionQueries.delete(division.getId());
+                response.sendRedirect("list");
+            } else {
+                request.setAttribute("message", "Неверно введено название!");
+                doGet(request, response);
+            }
+        } catch (Exception ex) {
+            request.setAttribute("message", "Во время обработки запроса произошла ошибка: " + ex.toString());
             doGet(request, response);
+            throw new RuntimeException(ex);
         }
     }
 

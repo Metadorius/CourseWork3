@@ -31,7 +31,7 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
                 redirectUri = (String) session.getAttribute("cachedUri");
                 session.removeAttribute("cachedUri");
                 if (session.getAttribute("cachedQuery") != null) {
-                    redirectUri += "?" + (String) session.getAttribute("cachedQuery");
+                    redirectUri += "?" + session.getAttribute("cachedQuery");
                     session.removeAttribute("cachedQuery");
                 }
             }
@@ -39,7 +39,7 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
         }
         else {
             request.setAttribute("message", "Неверно введены данные!");
-            request.getRequestDispatcher("/login.jsp").forward(request, response);
+            doGet(request, response);
         }
     }
 

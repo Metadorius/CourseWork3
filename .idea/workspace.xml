@@ -7,28 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e5311f0-b156-4bdb-a9c5-6479930010d5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/misc/SMTPMailSender.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/servlets/admin/divisions/DivisionSendServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/admin/divisions/divisionSend.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlets/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlets/LoginServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlets/admin/divisions/DivisionDeleteServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlets/admin/divisions/DivisionDeleteServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlets/admin/divisions/DivisionListServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlets/admin/divisions/DivisionListServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlets/admin/divisions/DivisionUpdateServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlets/admin/divisions/DivisionUpdateServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlets/admin/radii/RadiusListServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlets/admin/radii/RadiusListServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlets/admin/radii/RadiusUpdateServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlets/admin/radii/RadiusUpdateServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlets/admin/systems/SystemDeleteServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlets/admin/systems/SystemDeleteServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlets/admin/systems/SystemUpdateServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlets/admin/systems/SystemUpdateServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/admin/divisions/divisionList.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/admin/divisions/divisionList.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/admin/radii/radiusList.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/admin/radii/radiusList.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/components/headerUser.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/components/headerUser.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/components/sidebar.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/components/sidebar.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/layouts/base.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/layouts/base.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/login.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/login.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/style.css" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -83,11 +62,12 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/webapp" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="project.structure.last.edited" value="Facets" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.5359551" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
@@ -331,7 +311,8 @@
       <workItem from="1575909439288" duration="26054000" />
       <workItem from="1575965330715" duration="281000" />
       <workItem from="1575973909832" duration="2028000" />
-      <workItem from="1576067522847" duration="5990000" />
+      <workItem from="1576067522847" duration="8393000" />
+      <workItem from="1576421886452" duration="9382000" />
     </task>
     <task id="LOCAL-00001" summary="Implement CRUD for divisions">
       <created>1574198530327</created>

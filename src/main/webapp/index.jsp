@@ -29,10 +29,20 @@
     let launchPolyline = null;
     let launchMinMarker = null;
     let launchMaxMarker = null;
+    let interpolatedRadius = null;
 
     document.getElementById("sidebarCollapse").addEventListener("click", function () {
         document.getElementById("sidebar").classList.toggle("active");
     });
+
+    function updateCalculations() {
+        clearUpCalculations();
+        calculateValues();
+    }
+    document.getElementById('height').addEventListener("change", updateCalculations);
+    document.getElementById('speed').addEventListener("change", updateCalculations);
+    document.getElementById('rockets').addEventListener("change", updateCalculations);
+    document.getElementById('timeDelta').addEventListener("change", updateCalculations);
 
     // document.addEventListener('swiped-left', function(e) {
     //     document.getElementById("sidebar").classList.remove("active");
@@ -54,22 +64,40 @@
         let timeDelta = +document.getElementById('timeDelta').value; // s
 
 
-        document.getElementById('horizontalDistance').value = dist;
-        document.getElementById('heading').value = heading;
-        document.getElementById('headingParameter').value = headingParameter;
+        document.getElementById('horizontalDistance').value = toFixed(dist, 4);
+        document.getElementById('heading').value = toFixed(heading, 4);
+        document.getElementById('headingParameter').value = toFixed(headingParameter, 4);
 
         let division;
         Object.keys(divisionsJson).forEach(function (key) {
             if (Number(divisionsJson[key]["id"]) == selectedDivisionId)
                 division = divisionsJson[key];
         });
-        console.log(division)
+        //console.log(division);
 
         let rocketSpeed = +division["AASystem"]["rocketSpeed"]; // m/s
-        //dummy code for test
+
         let radius = getInterpolatedRadius(division, height);
         let radiusMin = +radius["radiusInner"];
         let radiusMax = +radius["radiusOuter"];
+
+        interpolatedRadius = new google.maps.Polygon({
+            paths: [drawCircle(new google.maps.LatLng(division["lat"], division["lng"]), radiusMax, 1),
+                drawCircle(new google.maps.LatLng(division["lat"], division["lng"]), radiusMin, -1)
+            ],
+            strokeColor: getColorForHeight(height),
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: getColorForHeight(height),
+            fillOpacity: 0.3,
+            zIndex: Math.round(height),
+            optimized: false,
+            clickable: false
+        });
+        interpolatedRadius.setMap(map);
+
+        document.getElementById('interpolatedRadiusInner').value = toFixed(radiusMin, 4);
+        document.getElementById('interpolatedRadiusOuter').value = toFixed(radiusMax, 4);
 
         if (radiusMax < headingParameter)
             return;
@@ -90,15 +118,15 @@
         if (launchDistanceMin > launchDistanceMax)
             return;
 
-        document.getElementById('launchDistanceMin').value = launchDistanceMin;
-        document.getElementById('launchDistanceMax').value = launchDistanceMax;
+        document.getElementById('launchDistanceMin').value = toFixed(launchDistanceMin, 4);
+        document.getElementById('launchDistanceMax').value = toFixed(launchDistanceMax, 4);
 
         let headingParamOffset = getIntersectionPoint();
-        console.log(headingParamOffset);
+        //console.log(headingParamOffset);
         let minOffset = getLaunchOffset(launchDistanceMin, headingParameter) * 1000;
-        console.log(minOffset);
+        //console.log(minOffset);
         let maxOffset = getLaunchOffset(launchDistanceMax, headingParameter) * 1000;
-        console.log(maxOffset);
+        //console.log(maxOffset);
         let reverseHeading = google.maps.geometry.spherical.computeHeading(targetHeadingPolyline.getPath().getAt(1), targetHeadingPolyline.getPath().getAt(0));
 
         let minLaunchPoint = google.maps.geometry.spherical.computeOffset(headingParamOffset, minOffset, reverseHeading);
@@ -112,7 +140,7 @@
             strokeColor: "#FF00FF",
             geodesic: true,
             optimized: false,
-            zIndex: 100,
+            zIndex: 9999,
             map: map
         });
         launchMinMarker = new google.maps.Marker({
@@ -145,10 +173,15 @@
         if (launchMaxMarker != null) {
             launchMaxMarker.setMap(null);
         }
+        if (interpolatedRadius != null) {
+            interpolatedRadius.setMap(null);
+        }
 
         document.getElementById('horizontalDistance').value = "";
         document.getElementById('heading').value = "";
         document.getElementById('headingParameter').value = "";
+        document.getElementById('interpolatedRadiusInner').value = "";
+        document.getElementById('interpolatedRadiusOuter').value = "";
         document.getElementById('launchDistanceMin').value = "";
         document.getElementById('launchDistanceMax').value = "";
     }
@@ -158,6 +191,7 @@
         let closestHigherRadiusKey = null, closestLowerRadiusKey = null;
         Object.keys(radii).forEach(function (key) {
             let radius = radii[key];
+            //console.log("height = " + radius["height"]);
             if (radius["height"] == height) {
                 closestHigherRadiusKey = key;
                 closestLowerRadiusKey = key;
@@ -169,6 +203,8 @@
                 closestLowerRadiusKey = key;
             }
         });
+        //console.log("chrk = " + closestHigherRadiusKey);
+        //console.log("clrk = " + closestLowerRadiusKey);
         if (closestHigherRadiusKey == closestLowerRadiusKey) {
             return radii[closestLowerRadiusKey];
         } else if (closestLowerRadiusKey == null || closestHigherRadiusKey == null) {
@@ -176,15 +212,17 @@
         } else { // linear interpolation
             let lowerRadius = radii[closestLowerRadiusKey];
             let higherRadius = radii[closestHigherRadiusKey];
-            return {
+            let x0 = lowerRadius["height"], x1 = higherRadius["height"],
+                y0in = lowerRadius["radiusInner"], y1in = higherRadius["radiusInner"],
+                y0out = lowerRadius["radiusOuter"], y1out = higherRadius["radiusOuter"];
+
+            let resultingRadius = {
                 height: height,
-                radiusInner: (lowerRadius["radiusInner"] * (higherRadius["height"] - height)
-                    + higherRadius["radiusInner"] * (height - lowerRadius["height"])
-                    / (higherRadius["height"] - lowerRadius["height"])),
-                radiusOuter: (lowerRadius["radiusOuter"] * (higherRadius["height"] - height)
-                    + higherRadius["radiusOuter"] * (height - lowerRadius["height"])
-                    / (higherRadius["height"] - lowerRadius["height"]))
-            }
+                radiusInner: y0in*(1 - (height - x0)/(x1 - x0)) + y1in*((height - x0)/(x1 - x0)),
+                radiusOuter: y0out*(1 - (height - x0)/(x1 - x0)) + y1out*((height - x0)/(x1 - x0))
+            };
+            //console.log(resultingRadius);
+            return resultingRadius;
         }
     }
 
@@ -250,6 +288,8 @@
         marker1.addListener('dragstart', clearUpCalculations);
         marker1.addListener('dragend', calculateValues);
         targetHeadingPolyline.setMap(map);
+
+        updateCalculations();
     }
 
     function drawCircle(point, radius, dir) {
@@ -320,6 +360,11 @@
         return 'hsl(' + (height * 240 / maxHeight) + ',100%,50%)';
     }
 
+    function toFixed(value, precision) {
+        var power = Math.pow(10, precision || 0);
+        return String(Math.round(value * power) / power);
+    }
+
     function initMap(listener) {
 
         MVCArrayBinder.prototype = new google.maps.MVCObject();
@@ -329,14 +374,14 @@
             } else {
                 this.array_.get(key);
             }
-        }
+        };
         MVCArrayBinder.prototype.set = function (key, val) {
             if (!isNaN(parseInt(key))) {
                 this.array_.setAt(parseInt(key), val);
             } else {
                 this.array_.set(key, val);
             }
-        }
+        };
 
         bounds = new google.maps.LatLngBounds();
         let req = new XMLHttpRequest();
@@ -363,7 +408,7 @@
                     icon: 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
                     position: new google.maps.LatLng(value["lat"], value["lng"]),
                     map: map,
-                    title: value["name"]
+                    title: "Дивизион"
                 });
                 divisionMarkers[Number(value["id"])] = marker;
 
@@ -374,9 +419,11 @@
                             drawCircle(new google.maps.LatLng(value["lat"], value["lng"]), value["AASystem"]["radii"][radiusKey]["radiusInner"], -1)
                         ],
                         strokeColor: getColorForHeight(value["AASystem"]["radii"][radiusKey]["height"]),
-                        strokeOpacity: 0.5,
+                        strokeOpacity: 0.8,
                         strokeWeight: 2,
                         fillOpacity: 0.0,
+                        zIndex: Math.round(height),
+                        optimized: false,
                         clickable: false
                     });
                     donut.setMap(map);
@@ -389,11 +436,19 @@
 
                 google.maps.event.addListener(marker, 'click', (function (e) {
                     return function () {
-                        infoWindow.setContent(
-                            "<p class=\"mb-1\"><b>" + value["name"] + "</b></p>\n" +
-                            "<p class=\"mb-1\">" + value["lat"] + ", " + value["lng"] + "</p>\n" +
-                            "<p class=\"mb-1\">" + value["AASystem"]["name"] + "</p>\n"
-                        );
+                        let infoWindowContent = "<p class=\"mb-1\"><b>" + value["name"] + "</b></p>\n" +
+                            "<p class=\"mb-3\">" + value["lat"] + "°, " + value["lng"] + "°</p>\n" +
+                            "<p class=\"mb-1\"><b>" + value["AASystem"]["name"] + "</b></p>\n" +
+                            "<p class=\"mb-1\"><b>Скорость ракет:</b> " + value["AASystem"]["rocketSpeed"] + " м/с</p>\n" +
+                            "<p class=\"mb-1\"><b>Зоны поражения на высотах:</b></p>\n";
+
+                        let radii = value["AASystem"]["radii"];
+                        Object.keys(radii).forEach(function (radiusKey) {
+                            infoWindowContent += "<p class=\"mb-1\">" + radii[radiusKey]["height"] + " км: " +
+                                radii[radiusKey]["radiusInner"] + "-" +
+                                radii[radiusKey]["radiusOuter"] + " км</p>\n"
+                        });
+                        infoWindow.setContent(infoWindowContent);
                         infoWindow.open(map, this);
                     }
                 })(marker, value));
@@ -406,8 +461,10 @@
                     Object.keys(divisionMarkers).forEach(function (key) {
                         if (key == selectedDivisionId) {
                             divisionMarkers[key].setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
+                            divisionMarkers[key].setTitle('Выбранный дивизион');
                         } else {
                             divisionMarkers[key].setIcon('http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
+                            divisionMarkers[key].setTitle('Дивизион');
                         }
                     });
                     clearUpCalculations();
@@ -417,7 +474,7 @@
                 bounds.extend(marker.position);
                 map.fitBounds(bounds);
             });
-        }
+        };
 
         google.maps.event.addListener(map, 'click', function (e) {
             if (targetHeadingPolyline == null)
